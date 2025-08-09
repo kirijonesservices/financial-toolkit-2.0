@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Planning Financial Toolkits</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+            font-weight: 700;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 40px;
+            font-size: 1.1em;
+        }
+
+        .calculators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .calculator {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .calculator:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .calculator h2 {
+            color: #2c3e50;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #34495e;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #bdc3c7;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.2);
+        }
+
+        .calculate-btn {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .calculate-btn:hover {
+            background: linear-gradient(135deg, #2980b9, #21618c);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            background: linear-gradient(135deg, #27ae60, #229954);
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            text-align: center;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            display: none;
+        }
+
+        .result.show {
+            display: flex;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7f8c8d;
+            font-style: italic;
+        }
+
+        @media (max-width: 768px) {
+            .calculators-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Life Planning Financial Toolkits</h1>
+        <p class="subtitle">Take control of your financial future with these powerful planning tools</p>
+        
+        <div class="calculators-grid">
+            <!-- Debt Payoff Calculator -->
+            <div class="calculator">
+                <h2>💳 Debt Payoff Calculator</h2>
+                <div class="input-group">
+                    <label for="debtAmount">Total Debt Amount ($)</label>
+                    <input type="number" id="debtAmount" placeholder="Enter total debt amount">
+                </div>
+                <div class="input-group">
+                    <label for="interestRate">Annual Interest Rate (%)</label>
+                    <input type="number" id="interestRate" step="0.01" placeholder="Enter interest rate">
+                </div>
+                <div class="input-group">
+                    <label for="monthlyPayment">Monthly Payment ($)</label>
+                    <input type="number" id="monthlyPayment" placeholder="Enter monthly payment">
+                </div>
+                <button class="calculate-btn" onclick="calculateDebtPayoff()">Calculate Payoff Time</button>
+                <div class="result" id="debtResult"></div>
+            </div>
+
+            <!-- Savings Goal Calculator -->
+            <div class="calculator">
+                <h2>🎯 Savings Goal Calculator</h2>
+                <div class="input-group">
+                    <label for="savingsGoal">Savings Goal ($)</label>
+                    <input type="number" id="savingsGoal" placeholder="Enter your savings goal">
+                </div>
+                <div class="input-group">
+                    <label for="currentSavings">Current Savings ($)</label>
+                    <input type="number" id="currentSavings" placeholder="Enter current savings">
+                </div>
+                <div class="input-group">
+                    <label for="monthlySavings">Monthly Savings ($)</label>
+                    <input type="number" id="monthlySavings" placeholder="Enter monthly savings amount">
+                </div>
+                <button class="calculate-btn" onclick="calculateSavingsGoal()">Calculate Time to Goal</button>
+                <div class="result" id="savingsResult"></div>
+            </div>
+
+            <!-- Emergency Fund Calculator -->
+            <div class="calculator">
+                <h2>🚨 Emergency Fund Calculator</h2>
+                <div class="input-group">
+                    <label for="monthlyExpenses">Monthly Expenses ($)</label>
+                    <input type="number" id="monthlyExpenses" placeholder="Enter monthly expenses">
+                </div>
+                <div class="input-group">
+                    <label for="emergencyMonths">Months of Coverage</label>
+                    <select id="emergencyMonths">
+                        <option value="3">3 months</option>
+                        <option value="6" selected>6 months</option>
+                        <option value="9">9 months</option>
+                        <option value="12">12 months</option>
+                    </select>
+                </div>
+                <div class="input-group">
+                    <label for="currentEmergencyFund">Current Emergency Fund ($)</label>
+                    <input type="number" id="currentEmergencyFund" placeholder="Enter current emergency fund">
+                </div>
+                <button class="calculate-btn" onclick="calculateEmergencyFund()">Calculate Emergency Fund</button>
+                <div class="result" id="emergencyResult"></div>
+            </div>
+
+            <!-- Retirement Calculator -->
+            <div class="calculator">
+                <h2>🏖️ Retirement Calculator</h2>
+                <div class="input-group">
+                    <label for="currentAge">Current Age</label>
+                    <input type="number" id="currentAge" placeholder="Enter your current age">
+                </div>
+                <div class="input-group">
+                    <label for="retirementAge">Retirement Age</label>
+                    <input type="number" id="retirementAge" placeholder="Enter desired retirement age">
+                </div>
+                <div class="input-group">
+                    <label for="monthlyRetirementSavings">Monthly Retirement Savings ($)</label>
+                    <input type="number" id="monthlyRetirementSavings" placeholder="Enter monthly savings">
+                </div>
+                <div class="input-group">
+                    <label for="expectedReturn">Expected Annual Return (%)</label>
+                    <input type="number" id="expectedReturn" step="0.1" value="7" placeholder="Enter expected return">
+                </div>
+                <button class="calculate-btn" onclick="calculateRetirement()">Calculate Retirement Fund</button>
+                <div class="result" id="retirementResult"></div>
+            </div>
+
+            <!-- Budget Analyzer -->
+            <div class="calculator">
+                <h2>📊 Budget Analyzer</h2>
+                <div class="input-group">
+                    <label for="monthlyIncome">Monthly Income ($)</label>
+                    <input type="number" id="monthlyIncome" placeholder="Enter monthly income">
+                </div>
+                <div class="input-group">
+                    <label for="housingCosts">Housing Costs ($)</label>
+                    <input type="number" id="housingCosts" placeholder="Enter housing costs">
+                </div>
+                <div class="input-group">
+                    <label for="otherExpenses">Other Expenses ($)</label>
+                    <input type="number" id="otherExpenses" placeholder="Enter other expenses">
+                </div>
+                <button class="calculate-btn" onclick="calculateBudget()">Analyze Budget</button>
+                <div class="result" id="budgetResult"></div>
+            </div>
+
+            <!-- Investment Growth Calculator -->
+            <div class="calculator">
+                <h2>📈 Investment Growth Calculator</h2>
+                <div class="input-group">
+                    <label for="initialInvestment">Initial Investment ($)</label>
+                    <input type="number" id="initialInvestment" placeholder="Enter initial investment">
+                </div>
+                <div class="input-group">
+                    <label for="monthlyContribution">Monthly Contribution ($)</label>
+                    <input type="number" id="monthlyContribution" placeholder="Enter monthly contribution">
+                </div>
+                <div class="input-group">
+                    <label for="investmentYears">Investment Period (Years)</label>
+                    <input type="number" id="investmentYears" placeholder="Enter number of years">
+                </div>
+                <div class="input-group">
+                    <label for="annualReturn">Expected Annual Return (%)</label>
+                    <input type="number" id="annualReturn" step="0.1" value="8" placeholder="Enter expected return">
+                </div>
+                <button class="calculate-btn" onclick="calculateInvestment()">Calculate Growth</button>
+                <div class="result" id="investmentResult"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>💡 These calculators provide estimates for planning purposes. Consult with financial professionals for personalized advice.</p>
+        </div>
+    </div>
+
+    <script>
+        function formatNumber(num) {
+            return num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function calculateDebtPayoff() {
+            const debt = parseFloat(document.getElementById('debtAmount').value);
+            const rate = parseFloat(document.getElementById('interestRate').value) / 100 / 12;
+            const payment = parseFloat(document.getElementById('monthlyPayment').value);
+            const resultDiv = document.getElementById('debtResult');
+
+            if (!debt || !rate || !payment) {
+                resultDiv.innerHTML = 'Please fill in all fields';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            if (payment <= debt * rate) {
+                resultDiv.innerHTML = 'Monthly payment too low to pay off debt!';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            const months = Math.ceil(-Math.log(1 - (debt * rate) / payment) / Math.log(1 + rate));
+            const totalPaid = payment * months;
+            const interestPaid = totalPaid - debt;
+
+            resultDiv.innerHTML = `
+                Payoff Time: ${months} months (${(months/12).toFixed(1)} years)<br>
+                Total Interest: ${formatNumber(interestPaid)}<br>
+                Total Paid: ${formatNumber(totalPaid)}
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        function calculateSavingsGoal() {
+            const goal = parseFloat(document.getElementById('savingsGoal').value);
+            const current = parseFloat(document.getElementById('currentSavings').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthlySavings').value);
+            const resultDiv = document.getElementById('savingsResult');
+
+            if (!goal || !monthly) {
+                resultDiv.innerHTML = 'Please fill in required fields';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            const remaining = goal - current;
+            if (remaining <= 0) {
+                resultDiv.innerHTML = 'Congratulations! You\'ve already reached your goal!';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            const months = Math.ceil(remaining / monthly);
+            const targetDate = new Date();
+            targetDate.setMonth(targetDate.getMonth() + months);
+
+            resultDiv.innerHTML = `
+                Time to Goal: ${months} months (${(months/12).toFixed(1)} years)<br>
+                Target Date: ${targetDate.toLocaleDateString()}<br>
+                Amount Needed: ${formatNumber(remaining)}
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        function calculateEmergencyFund() {
+            const expenses = parseFloat(document.getElementById('monthlyExpenses').value);
+            const months = parseFloat(document.getElementById('emergencyMonths').value);
+            const current = parseFloat(document.getElementById('currentEmergencyFund').value) || 0;
+            const resultDiv = document.getElementById('emergencyResult');
+
+            if (!expenses) {
+                resultDiv.innerHTML = 'Please enter your monthly expenses';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            const target = expenses * months;
+            const needed = Math.max(0, target - current);
+            const percentage = (current / target * 100).toFixed(1);
+
+            resultDiv.innerHTML = `
+                Target Emergency Fund: ${formatNumber(target)}<br>
+                Amount Still Needed: ${formatNumber(needed)}<br>
+                Progress: ${percentage}% complete
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        function calculateRetirement() {
+            const currentAge = parseFloat(document.getElementById('currentAge').value);
+            const retirementAge = parseFloat(document.getElementById('retirementAge').value);
+            const monthlySavings = parseFloat(document.getElementById('monthlyRetirementSavings').value);
+            const annualReturn = parseFloat(document.getElementById('expectedReturn').value) / 100;
+            const resultDiv = document.getElementById('retirementResult');
+
+            if (!currentAge || !retirementAge || !monthlySavings || !annualReturn) {
+                resultDiv.innerHTML = 'Please fill in all fields';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            const yearsToRetirement = retirementAge - currentAge;
+            if (yearsToRetirement <= 0) {
+                resultDiv.innerHTML = 'You\'re already at retirement age!';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            const monthlyRate = annualReturn / 12;
+            const totalMonths = yearsToRetirement * 12;
+            
+            // Future value of annuity formula
+            const futureValue = monthlySavings * (((1 + monthlyRate) ** totalMonths - 1) / monthlyRate);
+
+            resultDiv.innerHTML = `
+                Years to Retirement: ${yearsToRetirement} years<br>
+                Projected Retirement Fund: ${formatNumber(futureValue)}<br>
+                Total Contributions: ${formatNumber(monthlySavings * totalMonths)}
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        function calculateBudget() {
+            const income = parseFloat(document.getElementById('monthlyIncome').value);
+            const housing = parseFloat(document.getElementById('housingCosts').value);
+            const other = parseFloat(document.getElementById('otherExpenses').value);
+            const resultDiv = document.getElementById('budgetResult');
+
+            if (!income || !housing || !other) {
+                resultDiv.innerHTML = 'Please fill in all fields';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            const totalExpenses = housing + other;
+            const remaining = income - totalExpenses;
+            const housingPercentage = (housing / income * 100).toFixed(1);
+            const savingsRate = (remaining / income * 100).toFixed(1);
+
+            let status = '';
+            if (remaining > 0) {
+                status = `✅ Surplus: $${remaining.toFixed(2)}`;
+            } else {
+                status = `⚠️ Deficit: $${Math.abs(remaining).toFixed(2)}`;
+            }
+
+            resultDiv.innerHTML = `
+                ${status}<br>
+                Housing: ${housingPercentage}% of income<br>
+                Savings Rate: ${savingsRate}%
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        function calculateInvestment() {
+            const initial = parseFloat(document.getElementById('initialInvestment').value) || 0;
+            const monthly = parseFloat(document.getElementById('monthlyContribution').value) || 0;
+            const years = parseFloat(document.getElementById('investmentYears').value);
+            const rate = parseFloat(document.getElementById('annualReturn').value) / 100;
+            const resultDiv = document.getElementById('investmentResult');
+
+            if (!years || !rate) {
+                resultDiv.innerHTML = 'Please enter investment period and expected return';
+                resultDiv.classList.add('show');
+                return;
+            }
+
+            const monthlyRate = rate / 12;
+            const totalMonths = years * 12;
+            
+            // Future value of initial investment
+            const futureInitial = initial * ((1 + rate) ** years);
+            
+            // Future value of monthly contributions
+            let futureMonthly = 0;
+            if (monthly > 0) {
+                futureMonthly = monthly * (((1 + monthlyRate) ** totalMonths - 1) / monthlyRate);
+            }
+            
+            const totalFuture = futureInitial + futureMonthly;
+            const totalContributions = initial + (monthly * totalMonths);
+            const totalGrowth = totalFuture - totalContributions;
+
+            resultDiv.innerHTML = `
+                Final Value: $${totalFuture.toFixed(2)}<br>
+                Total Growth: $${totalGrowth.toFixed(2)}<br>
+                Return on Investment: ${((totalGrowth / totalContributions) * 100).toFixed(1)}%
+            `;
+            resultDiv.classList.add('show');
+        }
+
+        // Add enter key support for all inputs
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input[type="number"]');
+            inputs.forEach(input => {
+                input.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        const calculator = input.closest('.calculator');
+                        const button = calculator.querySelector('.calculate-btn');
+                        button.click();
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
